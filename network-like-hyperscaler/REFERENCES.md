@@ -168,6 +168,7 @@ content/
 - **Issue #3:** Phase 2 Architecture & Design (active tracking)
 - **Issue #4:** Curriculum Adjustments (ongoing reference)
 - **Issue #5:** Dev Agent Phase 2 Dispatch (technical validation)
+- **Issue #6:** Phase 2a Ideal Environment Setup (CRITICAL - blocks module design)
 
 ### Closed Issues
 - **Issue #1:** ✅ Vlab Environment Exploration (Phase 1 research)
