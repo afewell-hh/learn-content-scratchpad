@@ -208,21 +208,48 @@ Each module must pass these gates before moving to next phase:
 
 ## Current Status
 
-**Phase:** Phase 1 - Research & Discovery
-**Next Actions:**
-1. Create GitHub issue structure and templates
-2. Create detailed technical mapping document
-3. Verify vlab observability capabilities
-4. Dispatch dev agent for vlab exploration and CRD documentation
+**Phase:** Phase 1 - Research & Discovery (Day 2)
 
-**Blockers:** None
+**Completed Actions:**
+- ✅ GitHub issue structure and templates created
+- ✅ Dev agent dispatched for vlab exploration
+- ✅ Day 1 research deliverables: VLAB_CAPABILITIES.md, OBSERVABILITY.md
+- ✅ Critical curriculum adjustments identified (Issue #4)
+
+**In Progress:**
+- 🔄 Waiting for switches to initialize
+- 🔄 CRD_REFERENCE.md (pending switch init)
+- 🔄 WORKFLOWS.md (pending switch init)
+
+**Next Actions:**
+1. Wait for switch initialization
+2. Capture real CRD examples and status fields
+3. Document kubectl-based workflows
+4. Complete technical mapping (Issue #2)
+5. Begin Course 3 redesign
+
+**Critical Findings:**
+- ⚠️ **Observability is opt-in**: No Grafana/Prometheus in default vlab - requires external stack
+- ⚠️ **No GitOps/ArgoCD**: Plain kubectl + YAML workflow
+- ✅ **Excellent topology**: All major redundancy patterns represented
+- ✅ **Kubernetes-native**: 20+ CRDs, rich status fields, events
+
+**Curriculum Impact:**
+- Course 3 needs major redesign (kubectl/status/events instead of Grafana)
+- Remove GitOps UI references, focus on kubectl workflow
+- This is actually pedagogically advantageous (simpler, focused)
+- See Issue #4 for full details
+
+**Blockers:** Switch initialization (expected delay, not concerning)
+
 **Risks:**
-- Consultant assumptions may not match vlab reality (mitigation: thorough research phase)
-- Context overflow (mitigation: aggressive delegation to dev agent)
-- Scope creep (mitigation: strict adherence to learning philosophy and ~4hr target)
+- ~~Consultant assumptions may not match vlab reality~~ - VALIDATED, gaps identified
+- Context overflow (mitigation: aggressive delegation to dev agent) - ON TRACK
+- Scope creep (mitigation: strict adherence to learning philosophy and ~4hr target) - MONITORED
 
 ---
 
-**Last Updated:** 2025-10-15
+**Last Updated:** 2025-10-15 (Day 2)
 **Project Lead:** Claude (Course Owner)
+**Dev Agent:** Day 1 complete, excellent progress
 **Repository:** https://github.com/afewell-hh/learn-content-scratchpad
