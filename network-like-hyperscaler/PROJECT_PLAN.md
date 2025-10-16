@@ -62,13 +62,14 @@ Student environment will be an Ubuntu host with:
 - ✅ Validate all tools work in integrated environment (verify-environment.sh)
 - ✅ Test complete GitOps workflow (Gitea → ArgoCD → VLAB → Grafana)
 
-**Phase 2b: Module Design (✅ READY TO RESUME - Environment Complete)**
-- 🔄 Redesign Module 1.2 with GitOps workflow (Gitea → ArgoCD → VPC creation)
-- 📋 Design Module 1.3: Interfaces (kubectl fabric CLI + Gitea web UI + Grafana)
-- 📋 Design Module 1.4: Recap & Forward Map
-- 📋 Design Course 2 modules (2.1-2.4): VPC provisioning via GitOps
-- 📋 Design Course 3 modules (3.1-3.4): Grafana dashboard-based observability
-- 📋 Design Course 4 modules (4.1-4.4): Troubleshooting with kubectl fabric + Grafana
+**Phase 2b: Module Design (IN PROGRESS)**
+- ✅ Module 1.1: Welcome to Fabric Operations (APPROVED - v1.0)
+- ✅ Module 1.2: How Hedgehog Works (APPROVED - v2.1 GitOps)
+- 🔄 Module 1.3: Mastering the Three Interfaces (Next)
+- 📋 Module 1.4: Course 1 Recap & Forward Map
+- 📋 Course 2 modules (2.1-2.4): VPC provisioning via GitOps
+- 📋 Course 3 modules (3.1-3.4): Grafana dashboard-based observability
+- 📋 Course 4 modules (4.1-4.4): Troubleshooting with kubectl + Grafana
 - 📋 Create module dependency graph
 - 📋 Design capstone assessment with specific tasks
 
@@ -286,10 +287,11 @@ Student VM will replicate local environment setup. Environment fully operational
 - Capstone: Integrated assessment design
 
 **Current Focus:**
-- ✅ Module 1.1 design APPROVED (read-only exploration)
+- ✅ Module 1.1 design APPROVED (read-only exploration - v1.0)
+- ✅ Module 1.2 design APPROVED (GitOps workflow - v2.1)
 - ✅ Phase 2a COMPLETE (ideal environment fully operational)
-- 🔄 Ready to redesign Module 1.2 with GitOps workflow
-- 📋 14 modules + capstone to design with proper tooling
+- 🔄 Module 1.3 design (Three Interfaces deep dive)
+- 📋 13 modules + capstone remaining
 
 **Deliverables Planned:**
 - Ideal environment setup documentation
