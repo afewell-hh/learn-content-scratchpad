@@ -80,8 +80,8 @@ Student environment will be an Ubuntu host with:
 - ✅ Module 4.3: Coordinating with Support (APPROVED - v1.0)
 - ✅ Module 4.4: Post-Incident Review (APPROVED - v1.0) ⭐⭐⭐⭐ **Course 4 Complete**
 - 🏆 **ALL 16 CORE MODULES DESIGNED** (100% milestone achieved)
-- 📋 Create module dependency graph
-- 📋 Design capstone assessment with specific tasks
+- ✅ Module Dependency Graph complete (MODULE_DEPENDENCY_GRAPH.md)
+- ✅ Capstone Assessment design complete (CAPSTONE_ASSESSMENT_DESIGN.md)
 
 ### Phase 3: Content Development (Iterative)
 **Goal:** Create high-quality, technically accurate modules
@@ -266,7 +266,7 @@ Each module must pass these gates before moving to next phase:
 
 **Quality:** Exceeded expectations ⭐⭐⭐⭐⭐
 
-### Phase 2: IN PROGRESS 🔄
+### Phase 2: ✅ COMPLETE (Oct 16, 2025)
 
 **Goal:** Transform research into detailed module designs
 
@@ -319,17 +319,18 @@ Student VM will replicate local environment setup. Environment fully operational
 - ✅ Module 4.4 design APPROVED (Post-Incident Review - v1.0)
 - ✅ **COURSE 4 DESIGN COMPLETE** - All 4 modules approved ⭐⭐⭐⭐
 - 🏆 **PHASE 2B COMPLETE** - All 16 core modules designed (100% milestone)
-- 📋 Create module dependency graph (Phase 3)
-- 📋 Design capstone assessment (Phase 3)
+- ✅ Module Dependency Graph created (MODULE_DEPENDENCY_GRAPH.md)
+- ✅ Capstone Assessment designed (CAPSTONE_ASSESSMENT_DESIGN.md)
+- 🏆 **PHASE 2 COMPLETE** - All deliverables finished (Oct 16, 2025)
 
-**Deliverables Planned:**
-- Ideal environment setup documentation
-- Module design specifications (1.1-4.4)
-- Lab exercise specifications using Grafana + kubectl fabric CLI
-- Assessment questions and rubrics
-- Module dependency graph
-- Capstone assessment design
-- Timing validation
+**Deliverables Completed:**
+- ✅ Ideal environment setup documentation (EMKC with Prometheus/Grafana/ArgoCD/Gitea)
+- ✅ Module design specifications (1.1-4.4) - All 16 core modules approved
+- ✅ Lab exercise specifications using Grafana + kubectl fabric CLI
+- ✅ Assessment questions and rubrics
+- ✅ Module dependency graph (MODULE_DEPENDENCY_GRAPH.md)
+- ✅ Capstone assessment design (CAPSTONE_ASSESSMENT_DESIGN.md)
+- 📋 Timing validation (deferred to Phase 4: Quality Assurance)
 
 **Next Actions:**
 1. ✅ Phase 2a complete - ideal environment operational
@@ -344,9 +345,10 @@ Student VM will replicate local environment setup. Environment fully operational
 10. 🏆 **PHASE 2B COMPLETE** - All 16 core modules designed (100% milestone achieved)
 
 **Active Issues:**
-- Issue #3: Phase 2 Architecture & Design (CLOSING - Phase 2b complete)
+- Issue #3: Phase 2 Architecture & Design (✅ CLOSED - Phase 2 complete)
 - Issue #4: Curriculum Adjustments Tracking (ongoing)
-- Issue #11: Course 4 Design (CLOSING - all 4 modules approved)
+- Issue #11: Course 4 Design (✅ CLOSED - all 4 modules approved)
+- Issue #12: Module Dependency Graph & Capstone Assessment (✅ CLOSED - both deliverables complete)
 
 **Blockers:** None
 
@@ -361,4 +363,4 @@ Student VM will replicate local environment setup. Environment fully operational
 **Project Lead:** Claude (Course Owner)
 **Dev Agent:** Phase 1 complete (exceptional work), ready for Phase 2 validation tasks
 **Repository:** https://github.com/afewell-hh/learn-content-scratchpad
-**Status:** ✅ Phase 1 Complete | ✅ Phase 2 Complete | 🏆 All 16 Core Modules Designed (100%)
+**Status:** ✅ Phase 1 Complete | ✅ Phase 2 Complete | 🏆 All 16 Core Modules + Capstone Designed (100%) | 🚀 Ready for Phase 3
