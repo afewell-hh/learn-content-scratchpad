@@ -41,29 +41,36 @@ All content MUST embody the **Hedgehog Learning Philosophy** (see `hedgehogLearn
 
 **PREREQUISITE: Ideal Environment Setup**
 Student environment will be an Ubuntu host with:
-- Hedgehog vlab (default topology)
-- Nested k3s cluster for tooling
+- Hedgehog VLAB (default topology) - Immutable control node
+- **External Management K3s Cluster (EMKC)** - Separate k3d cluster for student tools
 - Prometheus + Grafana (with Hedgehog dashboards pre-configured)
 - ArgoCD + Gitea (for GitOps workflows)
 - kubectl fabric CLI plugin installed and accessible
 
-**Phase 2a: Environment Setup (IN PROGRESS)**
-- ✅ Research kubectl fabric CLI plugin capabilities
-- 📋 Set up Prometheus/Grafana stack in local environment
-- 📋 Configure Hedgehog telemetry (Alloy → Prometheus/Loki)
-- 📋 Import 6 Hedgehog Grafana dashboards
-- 📋 Set up ArgoCD + Gitea for GitOps workflows
-- 📋 Document ideal environment setup for student VM appliance replication
-- 📋 Validate all tools work in integrated environment
+**Architecture Decision:** After discovering that the Hedgehog control node is an immutable Flatcar Linux appliance (customers cannot modify it), we pivoted to deploying all student-facing tools in a separate single-node k3d cluster on the Ubuntu host (EMKC). This provides clear separation between Hedgehog infrastructure and student tooling, mirrors real-world deployment patterns, and enables easy reset/replication. See ADR-001 for full rationale.
 
-**Phase 2b: Module Design (PAUSED - Resume After 2a)**
-- Design actual lab exercises for each module
-- Map real CRD workflows to learning objectives
-- Use documented Hedgehog observability tools (Grafana, kubectl fabric CLI)
-- Identify troubleshooting scenarios we can create
-- Define prerequisite knowledge for each module
-- Create module dependency graph
-- Design capstone assessment with specific tasks
+**Phase 2a: Environment Setup (✅ COMPLETE - Oct 15, 2025)**
+- ✅ Research kubectl fabric CLI plugin capabilities
+- ✅ Set up EMKC (k3d cluster "observability") on Ubuntu host
+- ✅ Deploy Prometheus/Grafana/Loki stack in EMKC via Helm
+- ✅ Configure Hedgehog telemetry (Alloy → fabric-proxy → EMKC services)
+- ✅ Import 6 Hedgehog Grafana dashboards (ConfigMap auto-discovery)
+- ✅ Deploy ArgoCD in EMKC with multi-cluster access to VLAB
+- ✅ Deploy Gitea in EMKC with hedgehog-config repository
+- ✅ Solve EMKC-VLAB networking (SSH tunnel + Docker bridge gateway)
+- ✅ Document ideal environment setup for student VM appliance replication
+- ✅ Validate all tools work in integrated environment (verify-environment.sh)
+- ✅ Test complete GitOps workflow (Gitea → ArgoCD → VLAB → Grafana)
+
+**Phase 2b: Module Design (✅ READY TO RESUME - Environment Complete)**
+- 🔄 Redesign Module 1.2 with GitOps workflow (Gitea → ArgoCD → VPC creation)
+- 📋 Design Module 1.3: Interfaces (kubectl fabric CLI + Gitea web UI + Grafana)
+- 📋 Design Module 1.4: Recap & Forward Map
+- 📋 Design Course 2 modules (2.1-2.4): VPC provisioning via GitOps
+- 📋 Design Course 3 modules (3.1-3.4): Grafana dashboard-based observability
+- 📋 Design Course 4 modules (4.1-4.4): Troubleshooting with kubectl fabric + Grafana
+- 📋 Create module dependency graph
+- 📋 Design capstone assessment with specific tasks
 
 ### Phase 3: Content Development (Iterative)
 **Goal:** Create high-quality, technically accurate modules
@@ -256,14 +263,20 @@ Each module must pass these gates before moving to next phase:
 
 **CRITICAL UPDATE (Oct 15):** Module design must be based on "ideal" Hedgehog environment with Prometheus/Grafana/ArgoCD/Gitea. Pausing module design to set up ideal environment first.
 
-**Phase 2a: Ideal Environment Setup (ACTIVE)**
-Student VM will replicate local environment setup. Must set up locally first:
+**Architecture Pivot (Oct 15):** Discovered that Hedgehog control node is immutable infrastructure (Flatcar Linux appliance). All student tools now deployed in External Management K3s Cluster (EMKC) - a separate k3d cluster on Ubuntu host. See ADR-001-emkc-separation.md for full architectural decision record.
 
-1. **kubectl fabric CLI** - Research and install kubectl plugin (super powerful tool)
-2. **Prometheus/Grafana** - Set up observability stack with Hedgehog dashboards
-3. **Hedgehog Telemetry** - Configure Alloy agents to push metrics/logs
-4. **ArgoCD + Gitea** - Set up GitOps workflows (GitHub too complex for student sessions)
-5. **Documentation** - Document setup for VM appliance replication
+**Phase 2a: Ideal Environment Setup (✅ COMPLETE - Oct 15, 2025)**
+Student VM will replicate local environment setup. Environment fully operational:
+
+1. ✅ **kubectl fabric CLI** - Installed and documented (500+ line reference)
+2. ✅ **EMKC Cluster** - Created k3d cluster "observability" on Ubuntu host
+3. ✅ **Prometheus/Grafana/Loki** - Deployed in EMKC via Helm with Remote Write enabled
+4. ✅ **Hedgehog Telemetry** - Configured Alloy agents pushing via fabric-proxy to EMKC
+5. ✅ **Grafana Dashboards** - All 6 Hedgehog dashboards imported via ConfigMap
+6. ✅ **ArgoCD + Gitea** - Deployed in EMKC with complete GitOps workflow
+7. ✅ **Networking Solution** - SSH tunnel + Docker bridge gateway (scriptable)
+8. ✅ **Documentation** - Complete setup guide, validation script, troubleshooting
+9. ✅ **End-to-End Validation** - GitOps workflow tested and working
 
 **Phase 2b: Module Design (PAUSED - Resume After Environment Setup)**
 - Course 1: Foundations & Interfaces (Modules 1.1-1.4)
@@ -274,9 +287,9 @@ Student VM will replicate local environment setup. Must set up locally first:
 
 **Current Focus:**
 - ✅ Module 1.1 design APPROVED (read-only exploration)
-- ⚠️ Module 1.2 design PAUSED (needs Grafana/kubectl fabric CLI)
-- 🔄 Setting up ideal environment
-- 📋 14 modules + capstone to design after environment ready
+- ✅ Phase 2a COMPLETE (ideal environment fully operational)
+- 🔄 Ready to redesign Module 1.2 with GitOps workflow
+- 📋 14 modules + capstone to design with proper tooling
 
 **Deliverables Planned:**
 - Ideal environment setup documentation
@@ -288,12 +301,12 @@ Student VM will replicate local environment setup. Must set up locally first:
 - Timing validation
 
 **Next Actions:**
-1. Research kubectl fabric CLI plugin
-2. Set up Prometheus/Grafana stack
-3. Configure Hedgehog telemetry
-4. Import Hedgehog dashboards
-5. Set up ArgoCD + Gitea
-6. Resume Module 1.2 design with proper tools
+1. ✅ Phase 2a complete - ideal environment operational
+2. 🔄 Redesign Module 1.2 with GitOps workflow (Gitea → ArgoCD → VPC)
+3. 📋 Design Module 1.3: Three Interfaces (kubectl fabric, Gitea, Grafana)
+4. 📋 Design Module 1.4: Course 1 Recap
+5. 📋 Design Course 2 (Modules 2.1-2.4) with GitOps provisioning patterns
+6. 📋 Design Course 3 (Modules 3.1-3.4) with Grafana dashboards
 
 **Active Issues:**
 - Issue #3: Phase 2 Architecture & Design (updated with plan)
