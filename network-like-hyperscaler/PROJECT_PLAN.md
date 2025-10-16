@@ -39,12 +39,49 @@ All content MUST embody the **Hedgehog Learning Philosophy** (see `hedgehogLearn
 ### Phase 2: Architecture & Design
 **Goal:** Translate pedagogy into technically accurate learning path
 
-- Design actual lab exercises for each module
-- Map real CRD workflows to learning objectives
-- Identify troubleshooting scenarios we can create
-- Define prerequisite knowledge for each module
-- Create module dependency graph
-- Design capstone assessment with specific tasks
+**PREREQUISITE: Ideal Environment Setup**
+Student environment will be an Ubuntu host with:
+- Hedgehog VLAB (default topology) - Immutable control node
+- **External Management K3s Cluster (EMKC)** - Separate k3d cluster for student tools
+- Prometheus + Grafana (with Hedgehog dashboards pre-configured)
+- ArgoCD + Gitea (for GitOps workflows)
+- kubectl fabric CLI plugin installed and accessible
+
+**Architecture Decision:** After discovering that the Hedgehog control node is an immutable Flatcar Linux appliance (customers cannot modify it), we pivoted to deploying all student-facing tools in a separate single-node k3d cluster on the Ubuntu host (EMKC). This provides clear separation between Hedgehog infrastructure and student tooling, mirrors real-world deployment patterns, and enables easy reset/replication. See ADR-001 for full rationale.
+
+**Phase 2a: Environment Setup (✅ COMPLETE - Oct 15, 2025)**
+- ✅ Research kubectl fabric CLI plugin capabilities
+- ✅ Set up EMKC (k3d cluster "observability") on Ubuntu host
+- ✅ Deploy Prometheus/Grafana/Loki stack in EMKC via Helm
+- ✅ Configure Hedgehog telemetry (Alloy → fabric-proxy → EMKC services)
+- ✅ Import 6 Hedgehog Grafana dashboards (ConfigMap auto-discovery)
+- ✅ Deploy ArgoCD in EMKC with multi-cluster access to VLAB
+- ✅ Deploy Gitea in EMKC with hedgehog-config repository
+- ✅ Solve EMKC-VLAB networking (SSH tunnel + Docker bridge gateway)
+- ✅ Document ideal environment setup for student VM appliance replication
+- ✅ Validate all tools work in integrated environment (verify-environment.sh)
+- ✅ Test complete GitOps workflow (Gitea → ArgoCD → VLAB → Grafana)
+
+**Phase 2b: Module Design (✅ COMPLETE - Oct 16, 2025)**
+- ✅ Module 1.1: Welcome to Fabric Operations (APPROVED - v1.0)
+- ✅ Module 1.2: How Hedgehog Works (APPROVED - v2.1 GitOps)
+- ✅ Module 1.3: Mastering the Three Interfaces (APPROVED - v1.1 Event-Based)
+- ✅ Module 1.4: Course 1 Recap & Forward Map (APPROVED - v1.0) ⭐ **Course 1 Complete**
+- ✅ Module 2.1: Define VPC Network (APPROVED - v1.0)
+- ✅ Module 2.2: Attach Servers to VPC (APPROVED - v1.0)
+- ✅ Module 2.3: Connectivity Validation (APPROVED - v1.0)
+- ✅ Module 2.4: Decommission & Cleanup (APPROVED - v1.0) ⭐⭐ **Course 2 Complete**
+- ✅ Module 3.1: Fabric Telemetry Overview (APPROVED - v1.0)
+- ✅ Module 3.2: Dashboard Interpretation (APPROVED - v1.0)
+- ✅ Module 3.3: Events & Status Monitoring (APPROVED - v1.0)
+- ✅ Module 3.4: Pre-Support Diagnostic Checklist (APPROVED - v1.0) ⭐⭐⭐ **Course 3 Complete**
+- ✅ Module 4.1: Diagnosing Fabric Issues (APPROVED - v1.0)
+- ✅ Module 4.2: Rollback & Recovery (APPROVED - v1.0)
+- ✅ Module 4.3: Coordinating with Support (APPROVED - v1.0)
+- ✅ Module 4.4: Post-Incident Review (APPROVED - v1.0) ⭐⭐⭐⭐ **Course 4 Complete**
+- 🏆 **ALL 16 CORE MODULES DESIGNED** (100% milestone achieved)
+- ✅ Module Dependency Graph complete (MODULE_DEPENDENCY_GRAPH.md)
+- ✅ Capstone Assessment design complete (CAPSTONE_ASSESSMENT_DESIGN.md)
 
 ### Phase 3: Content Development (Iterative)
 **Goal:** Create high-quality, technically accurate modules
@@ -208,7 +245,7 @@ Each module must pass these gates before moving to next phase:
 
 ## Current Status
 
-**Phase:** Phase 2 - Architecture & Design 🎨
+**Phase:** Phase 3 - Content Development 🚀
 
 ### Phase 1: COMPLETE ✅ (Oct 15, 2025)
 
@@ -229,43 +266,162 @@ Each module must pass these gates before moving to next phase:
 
 **Quality:** Exceeded expectations ⭐⭐⭐⭐⭐
 
-### Phase 2: IN PROGRESS 🔄
+### Phase 2: ✅ COMPLETE (Oct 16, 2025)
 
 **Goal:** Transform research into detailed module designs
 
 **Approach:** Best effort, quality over speed
 
-**Sequence:**
+**CRITICAL UPDATE (Oct 15):** Module design must be based on "ideal" Hedgehog environment with Prometheus/Grafana/ArgoCD/Gitea. Pausing module design to set up ideal environment first.
+
+**Architecture Pivot (Oct 15):** Discovered that Hedgehog control node is immutable infrastructure (Flatcar Linux appliance). All student tools now deployed in External Management K3s Cluster (EMKC) - a separate k3d cluster on Ubuntu host. See ADR-001-emkc-separation.md for full architectural decision record.
+
+**Phase 2a: Ideal Environment Setup (✅ COMPLETE - Oct 15, 2025)**
+Student VM will replicate local environment setup. Environment fully operational:
+
+1. ✅ **kubectl fabric CLI** - Installed and documented (500+ line reference)
+2. ✅ **EMKC Cluster** - Created k3d cluster "observability" on Ubuntu host
+3. ✅ **Prometheus/Grafana/Loki** - Deployed in EMKC via Helm with Remote Write enabled
+4. ✅ **Hedgehog Telemetry** - Configured Alloy agents pushing via fabric-proxy to EMKC
+5. ✅ **Grafana Dashboards** - All 6 Hedgehog dashboards imported via ConfigMap
+6. ✅ **ArgoCD + Gitea** - Deployed in EMKC with complete GitOps workflow
+7. ✅ **Networking Solution** - SSH tunnel + Docker bridge gateway (scriptable)
+8. ✅ **Documentation** - Complete setup guide, validation script, troubleshooting
+9. ✅ **End-to-End Validation** - GitOps workflow tested and working
+
+**Phase 2b: Module Design (PAUSED - Resume After Environment Setup)**
 - Course 1: Foundations & Interfaces (Modules 1.1-1.4)
 - Course 2: Provisioning & Connectivity (Modules 2.1-2.4)
-- Course 3: Kubernetes-Native Monitoring (Modules 3.1-3.4)
+- Course 3: Grafana-Based Observability (Modules 3.1-3.4) - **NOT kubectl-native**
 - Course 4: Troubleshooting & Recovery (Modules 4.1-4.4)
 - Capstone: Integrated assessment design
 
 **Current Focus:**
-- 🔄 Module design template created
-- 🔄 Beginning Module 1.1 design
-- 📋 16 core modules to design
-- 📋 Capstone assessment to specify
+- ✅ Module 1.1 design APPROVED (read-only exploration - v1.0)
+- ✅ Module 1.2 design APPROVED (GitOps workflow - v2.1)
+- ✅ Module 1.3 design APPROVED (Three Interfaces deep dive - v1.1 Event-Based)
+- ✅ Module 1.4 design APPROVED (Course 1 Recap & Forward Map - v1.0)
+- ✅ Phase 2a COMPLETE (ideal environment fully operational)
+- ✅ **COURSE 1 DESIGN COMPLETE** - All 4 modules approved ⭐
+- ✅ Module 2.1 design COMPLETE (Define VPC Network - v1.0)
+- ✅ Module 2.2 design COMPLETE (Attach Servers to VPC - v1.0)
+- ✅ Module 2.3 design COMPLETE (Connectivity Validation - v1.0)
+- ✅ Module 2.4 design COMPLETE (Decommission & Cleanup - v1.0)
+- ✅ **COURSE 2 DESIGN COMPLETE** - All 4 modules designed ⭐⭐
+- ✅ Module 3.1 design APPROVED (Fabric Telemetry Overview - v1.0)
+- ✅ Module 3.2 design APPROVED (Dashboard Interpretation - v1.0)
+- ✅ Module 3.3 design APPROVED (Events & Status Monitoring - v1.0)
+- ✅ Module 3.4 design APPROVED (Pre-Support Diagnostic Checklist - v1.0)
+- ✅ **COURSE 3 DESIGN COMPLETE** - All 4 modules approved ⭐⭐⭐
+- ✅ Module 4.1 design APPROVED (Diagnosing Fabric Issues - v1.0)
+- ✅ Module 4.2 design APPROVED (Rollback & Recovery - v1.0)
+- ✅ Module 4.3 design APPROVED (Coordinating with Support - v1.0)
+- ✅ Module 4.4 design APPROVED (Post-Incident Review - v1.0)
+- ✅ **COURSE 4 DESIGN COMPLETE** - All 4 modules approved ⭐⭐⭐⭐
+- 🏆 **PHASE 2B COMPLETE** - All 16 core modules designed (100% milestone)
+- ✅ Module Dependency Graph created (MODULE_DEPENDENCY_GRAPH.md)
+- ✅ Capstone Assessment designed (CAPSTONE_ASSESSMENT_DESIGN.md)
+- 🏆 **PHASE 2 COMPLETE** - All deliverables finished (Oct 16, 2025)
 
-**Deliverables Planned:**
-- Module design specifications (1.1-4.4)
-- Lab exercise specifications
-- Assessment questions and rubrics
-- Module dependency graph
-- Capstone assessment design
-- Timing validation
+**Deliverables Completed:**
+- ✅ Ideal environment setup documentation (EMKC with Prometheus/Grafana/ArgoCD/Gitea)
+- ✅ Module design specifications (1.1-4.4) - All 16 core modules approved
+- ✅ Lab exercise specifications using Grafana + kubectl fabric CLI
+- ✅ Assessment questions and rubrics
+- ✅ Module dependency graph (MODULE_DEPENDENCY_GRAPH.md)
+- ✅ Capstone assessment design (CAPSTONE_ASSESSMENT_DESIGN.md)
+- 📋 Timing validation (deferred to Phase 4: Quality Assurance)
 
 **Next Actions:**
-1. Begin Module 1.1 detailed design
-2. Validate lab exercises in vlab
-3. Create assessment questions
-4. Map module dependencies
-5. Design capstone scenario
+1. ✅ Phase 2a complete - ideal environment operational
+2. ✅ Module 1.2 redesigned with GitOps workflow (v2.1 APPROVED)
+3. ✅ Module 1.3 designed and APPROVED (v1.1 Event-Based)
+4. ✅ Module 1.3 validation by dev agent - Course lead architectural decision (event-based reconciliation)
+5. ✅ Module 1.4 designed and APPROVED (v1.0)
+6. ✅ **COURSE 1 COMPLETE** - All 4 modules approved
+7. ✅ **COURSE 2 COMPLETE** - All 4 modules designed (Modules 2.1-2.4)
+8. ✅ **COURSE 3 COMPLETE** - All 4 modules designed (Modules 3.1-3.4)
+9. ✅ **COURSE 4 COMPLETE** - All 4 modules designed (Modules 4.1-4.4)
+10. 🏆 **PHASE 2B COMPLETE** - All 16 core modules designed (100% milestone achieved)
+
+### Phase 3: 🚀 IN PROGRESS (Oct 16, 2025)
+
+**Goal:** Transform 16 approved module designs into polished, production-ready learning content
+
+**Approach:** Iterative, module-by-module content development following critical path
+
+**Progress:** 6 of 16 modules complete (38%)
+
+✅ **Course 1: PUBLISHED (Oct 16, 2025)**
+
+**Problem Resolved:** Course 1 format remediation complete (~2 hours, faster than estimated 4-6 hours)
+- ✅ Converted all 4 modules to correct hh-learn format
+- ✅ YAML front matter with all required fields
+- ✅ Individual module directories in `content/modules/[slug]/README.md`
+- ✅ Course JSON created (`network-like-hyperscaler-foundations.json`)
+- ✅ Pathway JSON created (`network-like-hyperscaler.json`)
+- ✅ PR #182 approved and merged
+- ✅ Published to hh-learn platform
+
+**Course 1 Status: PUBLISHED ✅**
+
+**Published Modules:**
+- ✅ Module 1.1: Welcome to Fabric Operations (141 char desc, order 101) - PUBLISHED
+- ✅ Module 1.2: How Hedgehog Works (130 char desc, order 102) - PUBLISHED
+- ✅ Module 1.3: Mastering the Three Interfaces (147 char desc, order 103) - PUBLISHED
+- ✅ Module 1.4: Course Recap & Forward Map (140 char desc, order 104) - PUBLISHED
+
+**Course 1 Metrics:**
+- **Total Content:** 3,019 lines (preserved during conversion)
+- **Average Quality:** 96.5% (content quality maintained)
+- **Format Compliance:** 100% (all requirements met)
+- **Total Duration:** ~50 minutes
+- **Status:** ✅ PUBLISHED - Available on hh-learn platform
+
+**Course 2 Status: IN PROGRESS 🚀**
+
+**Completed Modules:**
+- ✅ Module 2.1: VPC Provisioning Essentials (778 lines, 100% quality, order 201) - COMPLETE
+  - File: `network-like-hyperscaler/course-2-provisioning/module-2.1-vpc-provisioning.md`
+  - All 10 required sections present
+  - YAML front matter valid
+  - SEO description: 139 characters
+  - Lab Steps: 5 detailed steps with success criteria
+  - Issue #17 completed
+
+- ✅ Module 2.2: VPC Attachments - Connecting Servers (1,124 lines, 100% quality, order 202) - COMPLETE
+  - File: `network-like-hyperscaler/course-2-provisioning/module-2.2-vpc-attachments.md`
+  - All 10 required sections present
+  - SEO description: 144 characters
+  - Lab Steps: 5 comprehensive steps
+  - Concepts: 7 major topics (Three-tier hierarchy, all 4 connection types, reconciliation)
+  - Troubleshooting: 6 realistic issues
+  - Issue #18 completed
+
+**In Development:**
+- 📋 Module 2.3: Connectivity Validation (next up)
+  - Order: 203
+  - Focus: Validating VPC and VPCAttachment deployments
+
+**Documentation:**
+- ✅ Phase 3 Plan created (PHASE_3_PLAN.md)
+- ✅ Format analysis (HH-LEARN_FORMAT_ANALYSIS.md)
+- ✅ Format conversion complete (COURSE_1_CONVERSION_COMPLETE.md)
+- ✅ Issue #13-16 completed (Course 1 modules)
+- ✅ Issue #17 completed (Module 2.1)
+- ✅ Issue #18 completed (Module 2.2)
 
 **Active Issues:**
-- Issue #3: Phase 2 Architecture & Design (updated with plan)
 - Issue #4: Curriculum Adjustments Tracking (ongoing)
+- 📋 Next: Issue #19 (Module 2.3) - To be created
+
+**Immediate Actions:**
+1. ✅ Course 1 format conversion complete
+2. ✅ PR #182 approved and merged
+3. ✅ Module 2.1 developed in correct format
+4. ✅ Module 2.2 completed (1,124 lines, 100% quality)
+5. 📋 Next: Module 2.3 (Connectivity Validation)
+6. 📋 Then: Module 2.4 (Decommission & Cleanup) - completes Course 2
 
 **Blockers:** None
 
@@ -273,11 +429,12 @@ Each module must pass these gates before moving to next phase:
 - Timing targets (15min/module) may need adjustment - WILL VALIDATE
 - Context management for long project - USING GITHUB EXTENSIVELY
 - Scope creep - STRICT ADHERENCE TO LEARNING PHILOSOPHY
+- 🚨 **Format compliance** - All future modules MUST use correct format from start
 
 ---
 
-**Last Updated:** 2025-10-15
+**Last Updated:** 2025-10-16 (Updated: Module 2.2 complete, Course 2 progress 50%)
 **Project Lead:** Claude (Course Owner)
-**Dev Agent:** Phase 1 complete (exceptional work), ready for Phase 2 validation tasks
+**Dev Agent:** Phase 1 complete (exceptional), Phase 3 in progress (6/16 modules complete)
 **Repository:** https://github.com/afewell-hh/learn-content-scratchpad
-**Status:** ✅ Phase 1 Complete | 🔄 Phase 2 Active | Ahead of Schedule
+**Status:** ✅ Phase 1 Complete | ✅ Phase 2 Complete | 🚀 Phase 3 In Progress (38% complete) | ✅ Course 1 PUBLISHED | 🔄 Course 2: 50% (2/4 modules)
