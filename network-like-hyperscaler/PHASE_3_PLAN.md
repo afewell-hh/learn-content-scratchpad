@@ -25,6 +25,30 @@
 
 ---
 
+## IMPORTANT: Format Remediation Required
+
+**Status:** 🚨 Course 1 modules (1.1-1.4) completed but in WRONG FORMAT
+
+**Issue Discovered:** 2025-10-16
+- Course 1 modules written in incorrect format (flat markdown files)
+- hh-learn platform requires specific structure: modules in `content/modules/[slug]/README.md`
+- Missing YAML front matter with required fields
+- Missing course JSON and pathway JSON files
+
+**Remediation Plan:**
+- See detailed analysis: `/home/ubuntu/afewell-hh/learn_content_scratchpad/network-like-hyperscaler/HH-LEARN_FORMAT_ANALYSIS.md`
+- Estimated effort: 4-6 hours to convert all 4 Course 1 modules
+- Must complete before continuing with Course 2 development
+
+**Next Steps:**
+1. Convert Course 1 modules (1.1-1.4) to proper hh-learn format
+2. Create course JSON for Course 1: `network-like-hyperscaler-foundations.json`
+3. Create/update pathway JSON: `network-like-hyperscaler.json`
+4. Test with `npm run sync:content`
+5. Resume Course 2 development using correct format from the start
+
+---
+
 ## Phase 3 Approach
 
 ### Development Methodology
@@ -33,8 +57,8 @@
 
 1. **Select Next Module** (follow critical path from MODULE_DEPENDENCY_GRAPH.md)
 2. **Agent Dispatch** (create detailed GitHub issue with full context)
-3. **Content Development** (agent transforms design → polished content)
-4. **Course Lead Review** (quality gates, philosophy alignment, technical accuracy)
+3. **Content Development** (agent transforms design → polished content in CORRECT FORMAT)
+4. **Course Lead Review** (quality gates, philosophy alignment, technical accuracy, FORMAT COMPLIANCE)
 5. **Approval/Iteration** (approve or request revisions)
 6. **Commit & Close** (merge to main, close issue)
 7. **Repeat** for next module
@@ -71,75 +95,110 @@ Each module has a comprehensive design document in `designs/module-X.X-design.md
 
 ### Output: Polished Module Content
 
-**Target Location:** `/home/ubuntu/afewell-hh/hh-learn/content/pathways/network-like-hyperscaler/`
+**IMPORTANT: hh-learn Platform Format Requirements**
 
-**Directory Structure:**
+The hh-learn platform uses a specific three-tier structure:
+- **Pathways** → JSON files in `content/pathways/`
+- **Courses** → JSON files in `content/courses/`
+- **Modules** → Individual directories in `content/modules/`
+
+**Module Directory Structure (REQUIRED):**
 ```
-hh-learn/content/pathways/network-like-hyperscaler/
-├── course-1-foundations/
-│   ├── module-1.1-welcome.md
-│   ├── module-1.2-how-hedgehog-works.md
-│   ├── module-1.3-three-interfaces.md
-│   └── module-1.4-course-recap.md
-├── course-2-provisioning/
-│   ├── module-2.1-define-vpc.md
-│   ├── module-2.2-attach-servers.md
-│   ├── module-2.3-connectivity-validation.md
-│   └── module-2.4-decommission-cleanup.md
-├── course-3-observability/
-│   ├── module-3.1-telemetry-overview.md
-│   ├── module-3.2-dashboard-interpretation.md
-│   ├── module-3.3-events-status-monitoring.md
-│   └── module-3.4-diagnostic-checklist.md
-├── course-4-troubleshooting/
-│   ├── module-4.1-diagnosing-issues.md
-│   ├── module-4.2-rollback-recovery.md
-│   ├── module-4.3-coordinating-support.md
-│   └── module-4.4-post-incident-review.md
-└── capstone/
-    └── hcfo-certification-exam.md
+hh-learn/content/modules/
+├── network-like-hyperscaler-welcome/
+│   └── README.md
+├── network-like-hyperscaler-how-it-works/
+│   └── README.md
+├── network-like-hyperscaler-mastering-interfaces/
+│   └── README.md
+├── network-like-hyperscaler-foundations-recap/
+│   └── README.md
+├── [... 12 more modules for Courses 2-4]
+└── hcfo-certification-capstone/
+    └── README.md
 ```
 
-**Content Structure (for each module):**
+**Course JSON Files (REQUIRED):**
+```
+hh-learn/content/courses/
+├── network-like-hyperscaler-foundations.json
+├── network-like-hyperscaler-provisioning.json
+├── network-like-hyperscaler-observability.json
+└── network-like-hyperscaler-troubleshooting.json
+```
+
+**Pathway JSON File (REQUIRED):**
+```
+hh-learn/content/pathways/
+└── network-like-hyperscaler.json
+```
+
+**Module Content Structure (with REQUIRED YAML Front Matter):**
 
 ```markdown
-# Module X.X: [Title]
+---
+title: "Module Title"
+slug: "lowercase-hyphen-slug"
+difficulty: "beginner"  # beginner|intermediate|advanced
+estimated_minutes: 15
+version: "v1.0.0"
+validated_on: "2025-10-16"
+pathway_slug: "network-like-hyperscaler"
+pathway_name: "Network Like a Hyperscaler"
+tags:
+  - hedgehog
+  - fabric
+  - kubernetes
+  - operations
+description: "120-160 character SEO-friendly description of what learners will achieve."
+order: 100
+---
 
-## Introduction
-- Hook (scenario or problem statement)
-- Learning objectives (5 specific outcomes)
-- Prerequisites (what learners need to know first)
-- Duration estimate
+# Module Title
 
-## Core Concepts
-- [Concept 1]: Explanation, examples, visual aids
-- [Concept 2]: Explanation, examples, visual aids
-- [Concept 3]: Explanation, examples, visual aids
-- Key terminology and definitions
+## Learning Objectives
+- Objective 1 (specific, measurable)
+- Objective 2
+- Objective 3
 
-## Hands-On Lab
-- Lab overview and objectives
-- Environment description
-- Step-by-step instructions with expected outputs
-- Validation checks and success criteria
-- Troubleshooting hints (if needed)
-- Lab summary and key takeaways
+## Prerequisites
+- Required prerequisite 1
+- Required prerequisite 2
 
-## Wrap-Up
-- Key takeaways (3-5 bullet points)
-- Preview of next module
-- Additional resources (optional)
+## Scenario: [Scenario Title]
+Scenario-based introduction (not abstract)
 
-## Assessment
-- 5 quiz questions (multiple choice, true/false, scenario-based, practical)
-- Each question with correct answer and detailed explanation
-- Practical assessment with rubric
+### Step 1: [Step Name]
+Step-by-step instructions with commands and expected outputs
 
-## Reference
-- CRDs used in this module (with links)
-- kubectl commands reference
-- Related documentation links
+### Step 2: [Step Name]
+Continue scenario...
+
+## Concepts & Deep Dive
+Deeper explanations of concepts introduced in scenario
+
+### Concept 1
+Explanation...
+
+### Concept 2
+Explanation...
+
+## Troubleshooting
+Common issues, symptoms, causes, fixes
+
+## Resources
+- [Link to authoritative documentation]
+- [Link to related modules]
 ```
+
+**Critical Format Requirements:**
+1. **YAML Front Matter** - MUST be at top of README.md between `---` markers
+2. **Slug** - lowercase-hyphen format, used for URLs and references
+3. **Description** - 120-160 characters for SEO
+4. **Tags** - Array format for categorization
+5. **Scenario-based approach** - Not abstract explanations
+6. **Code blocks** - Must specify language (```bash, ```yaml)
+7. **Section names** - "Scenario:" and "Concepts & Deep Dive" (not "Lab" or "Core Concepts")
 
 **Style Guidelines:**
 
@@ -219,23 +278,34 @@ Convert the approved design document for **Module X.X: [Title]** into a polished
 ## Output: Polished Module Content
 
 **Target Location:**
-`/home/ubuntu/afewell-hh/hh-learn/content/pathways/network-like-hyperscaler/course-X-[name]/module-X.X-[slug].md`
+`/home/ubuntu/afewell-hh/hh-learn/content/modules/[module-slug]/README.md`
+
+**Example paths:**
+- Module 1.1: `content/modules/network-like-hyperscaler-welcome/README.md`
+- Module 2.1: `content/modules/network-like-hyperscaler-vpc-provisioning/README.md`
+
+**REQUIRED: YAML Front Matter**
+Every module README.md MUST start with YAML front matter containing:
+- title, slug, difficulty, estimated_minutes
+- version, validated_on, pathway_slug, pathway_name
+- tags (array), description (120-160 chars), order
 
 **Required Sections:**
-1. Introduction (hook, learning objectives, prerequisites, duration)
-2. Core Concepts (3-5 key concepts with explanations, examples)
-3. Hands-On Lab (step-by-step instructions, expected outputs, success criteria)
-4. Wrap-Up (key takeaways, preview of next module)
-5. Assessment (5 quiz questions + practical assessment)
-6. Reference (CRDs used, kubectl commands, links)
+1. **Learning Objectives** (bulleted list of specific outcomes)
+2. **Prerequisites** (required prior knowledge)
+3. **Scenario: [Title]** (scenario-based walkthrough with steps)
+4. **Concepts & Deep Dive** (deeper explanations of concepts)
+5. **Troubleshooting** (common issues and fixes)
+6. **Resources** (links to authoritative docs)
 
 **Style Requirements:**
 - **Tone:** Professional but conversational, approachable, confidence-building
 - **Voice:** Second person ("you'll learn", "you'll use")
 - **Length:** Concise, scannable, respect 15-minute target
-- **Code Blocks:** Always include expected outputs and validation steps
+- **Code Blocks:** Must specify language (```bash, ```yaml) and include expected outputs
 - **Explanations:** Explain "why" not just "how" (teach design choices)
 - **Learning Philosophy:** Embed principles naturally (confidence-first, hands-on, reality-focused)
+- **Scenario-based:** Start with real-world scenario, not abstract concepts
 
 ---
 
