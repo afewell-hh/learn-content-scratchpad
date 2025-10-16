@@ -2,8 +2,8 @@
 
 **Course**: Network Like a Hyperscaler - Course 1: Fabric Operations Foundations
 **Module**: 1.3 of 4
-**Status**: DESIGN - Ready for Review
-**Version**: 1.0
+**Status**: DESIGN - Updated for Event-Based Reconciliation
+**Version**: 1.1
 **Date**: 2025-10-16
 
 ---
@@ -30,7 +30,7 @@
 By the end of this module, students will be able to:
 
 1. **Select the appropriate interface** for specific operational tasks (read, write, observe)
-2. **Interpret kubectl CRD output** including status fields and resource relationships
+2. **Interpret kubectl CRD output** including events, reconciliation status, and resource relationships
 3. **Navigate Gitea for configuration audit** including commit history and diffs
 4. **Read Grafana dashboards** for fabric health monitoring (all 6 dashboards)
 5. **Correlate information across interfaces** to troubleshoot configuration issues
@@ -76,7 +76,7 @@ By the end of this module, students will be able to:
 
 **Use kubectl when you need to:**
 - ✅ Check current state of VPCs, switches, connections
-- ✅ View status fields (errors, warnings, reconciliation state)
+- ✅ View events and reconciliation status (errors, warnings)
 - ✅ List all resources of a type
 - ✅ Troubleshoot why something isn't working
 - ✅ Get detailed YAML output for a resource
@@ -118,7 +118,7 @@ Use kubectl to inspect current cluster state, understand CRD status fields, and 
 
 ### Task 1.1: Inspect Your VPC (2 minutes)
 
-**Objective**: View the VPC created in Module 1.2 and understand its status
+**Objective**: View the VPC created in Module 1.2 and verify its reconciliation
 
 **Commands**:
 ```bash
@@ -128,37 +128,45 @@ kubectl get vpcs
 # Get detailed information about myfirst-vpc
 kubectl get vpc myfirst-vpc -o yaml
 
-# Focus on the status section
-kubectl get vpc myfirst-vpc -o yaml | grep -A 20 "status:"
+# Check reconciliation status via events
+kubectl describe vpc myfirst-vpc
 ```
 
-**Expected Output**:
-```yaml
-status:
-  ipv4Namespace: default
-  state: Active
-  subnets:
-    default:
-      dhcp:
-        range:
-          end: 10.0.10.250
-          start: 10.0.10.10
-      gateway: 10.0.10.1
-      subnet: 10.0.10.0/24
-      vlan: 1010
-  vlanNamespace: default
-  vni: 100010
+**Expected Output** (kubectl describe excerpt):
+```
+Name:         myfirst-vpc
+Namespace:    default
+Labels:       fabric.githedgehog.com/ipv4ns=default
+              fabric.githedgehog.com/vlanns=default
+...
+Spec:
+  Ipv4Namespace:  default
+  Subnets:
+    Default:
+      Dhcp:
+        Enable:  true
+        Range:
+          End:    10.0.10.250
+          Start:  10.0.10.10
+      Gateway:  10.0.10.1
+      Subnet:   10.0.10.0/24
+      Vlan:     1010
+  Vlan Namespace:  default
+Events:            <none>
 ```
 
 **Key Observations for Students**:
-- 📊 `state: Active` - VPC is fully reconciled and working
-- 📊 `vni: 100010` - VXLAN Network Identifier automatically assigned by Hedgehog
-- 📊 `status.subnets` - Shows realized configuration including auto-assigned gateway
+- 📊 **Events: \<none>** - VPC reconciled successfully (no errors)
+- 📊 **Spec fields present** - Configuration is stored in cluster
+- 📊 **Gateway auto-assigned** - Hedgehog computed gateway IP (10.0.10.1)
+
+> 💡 **Hedgehog's Event-Based Reconciliation**
+> VPCs use event-based reconciliation - if `kubectl describe` shows no error events, the VPC is working. VNI and VLAN assignments happen transparently in the switches. This "no news is good news" model simplifies Day 2 operations.
 
 **Student Exercise**:
-> **Question**: What is the VNI (VXLAN Network Identifier) assigned to `myfirst-vpc`?
-> **How to find it**: Look in the `status:` section under `vni:`
-> **Expected Answer**: 100010 (or similar - auto-assigned)
+> **Question**: How can you verify that `myfirst-vpc` was successfully reconciled?
+> **How to find it**: Run `kubectl describe vpc myfirst-vpc` and check the Events section
+> **Expected Answer**: No error/warning events = successful reconciliation
 
 ---
 
@@ -276,8 +284,8 @@ Events:            <none>
 - 📖 `kubectl describe` shows human-readable format
 - 📖 Labels show namespace membership
 - 📖 Creation Timestamp answers "when was this created?"
-- 📖 Events section would show errors (none here = healthy)
-- 📖 Spec vs Status: Spec is desired, Status is actual
+- 📖 **Events section is key** - errors appear here (none = healthy)
+- 📖 Spec shows desired configuration (what you want)
 
 **Teaching Point**:
 > 💡 **kubectl get vs kubectl describe**
@@ -292,7 +300,7 @@ Events:            <none>
 
 **What Students Learned**:
 - ✅ How to inspect VPC state with kubectl
-- ✅ Understanding status fields (state, vni)
+- ✅ Understanding event-based reconciliation (no errors = success)
 - ✅ Listing fabric resources (agents, connections)
 - ✅ Difference between `kubectl get` and `kubectl describe`
 
@@ -300,10 +308,39 @@ Events:            <none>
 ```bash
 kubectl get vpcs                  # List all VPCs
 kubectl get vpc <name> -o yaml    # Detailed VPC info
-kubectl describe vpc <name>       # Human-readable details
+kubectl describe vpc <name>       # Check events for reconciliation status
 kubectl get agents -A             # List switches
 kubectl get connections -A        # List connections
 ```
+
+---
+
+### Understanding Hedgehog's Reconciliation Model
+
+**Why VPCs Have Minimal Status**:
+
+Hedgehog uses different reconciliation patterns for different resource types:
+
+| CRD Type | Status Approach | How to Check | Example |
+|----------|----------------|--------------|---------|
+| **Agent** (switches) | Rich status fields | `kubectl get agent <name> -o yaml` | `status.conditions`, `status.state.bgpNeighbors` |
+| **VPC** (network config) | Event-based | `kubectl describe vpc <name>` | Events section shows errors |
+
+**Why the difference?**
+- **Agents** represent physical infrastructure (switches) with complex state to monitor
+- **VPCs** represent desired configuration - reconciliation is binary (works or errors)
+
+**For Day 2 Operations**:
+- **Agents**: Use `kubectl get agent -o yaml` to see detailed switch status
+- **VPCs**: Use `kubectl describe vpc` and check for error events
+- **Rule of thumb**: No error events = VPC is operational
+
+**Teaching Moment**:
+> 💡 This event-based model is actually *simpler* for troubleshooting:
+> - No complex status fields to parse
+> - Errors appear immediately as events
+> - "No news is good news" - if no errors, it's working
+> - VNI/VLAN assignments happen transparently (visible on switches via Agent status)
 
 ---
 
@@ -455,7 +492,7 @@ Navigate all 6 Hedgehog Grafana dashboards, interpret metrics, and understand fa
 
 **Purpose**: High-level fabric health overview
 
-**URL**: http://localhost:3000/d/<uid>/fabric
+**URL**: http://localhost:3000/d/ab831ceb-cf5c-474a-b7e9-83dcd075c218/fabric
 
 **Key Panels**:
 - **Switch Status**: Green/red indicators for each switch
@@ -485,7 +522,7 @@ Navigate all 6 Hedgehog Grafana dashboards, interpret metrics, and understand fa
 
 **Purpose**: Hedgehog control plane health (Kubernetes & Fabricator)
 
-**URL**: http://localhost:3000/d/<uid>/platform
+**URL**: http://localhost:3000/d/f8a648b9-5510-49ca-9273-952ba6169b7b/platform
 
 **Key Panels**:
 - **Control Node Status**: CPU, memory, disk usage
@@ -517,7 +554,7 @@ Navigate all 6 Hedgehog Grafana dashboards, interpret metrics, and understand fa
 
 **Purpose**: Switch port utilization and link status
 
-**URL**: http://localhost:3000/d/<uid>/interfaces
+**URL**: http://localhost:3000/d/a5e5b12d-b340-4753-8f83-af8d54304822/interfaces
 
 **Key Panels**:
 - **Port Status**: Up/down state for all interfaces
@@ -548,7 +585,7 @@ Navigate all 6 Hedgehog Grafana dashboards, interpret metrics, and understand fa
 
 **Purpose**: Aggregated syslog messages from all switches
 
-**URL**: http://localhost:3000/d/<uid>/logs
+**URL**: http://localhost:3000/d/c42a51e5-86a8-42a0-b1c9-d1304ae655bc/logs
 
 **Key Panels**:
 - **Recent Logs**: Stream of syslog messages
@@ -580,7 +617,7 @@ Navigate all 6 Hedgehog Grafana dashboards, interpret metrics, and understand fa
 
 **Purpose**: Switch hardware metrics (CPU, memory, disk, thermals)
 
-**URL**: http://localhost:3000/d/<uid>/node-exporter-full-2
+**URL**: http://localhost:3000/d/rYdddlPWA/node-exporter-full-2
 
 **Key Panels**:
 - **CPU Usage**: Per-switch CPU utilization
@@ -607,7 +644,7 @@ Navigate all 6 Hedgehog Grafana dashboards, interpret metrics, and understand fa
 
 **Purpose**: Critical Resource Monitoring - ASIC resources (TCAM, routes, neighbors)
 
-**URL**: http://localhost:3000/d/<uid>/switch-critical-resources
+**URL**: http://localhost:3000/d/fb08315c-cabb-4da7-9db9-2e17278f1781/switch-critical-resources
 
 **Key Panels**:
 - **TCAM Utilization**: ACL/route table space used
@@ -692,19 +729,27 @@ spec:
 # Check if VPC exists
 kubectl get vpc broken-vpc
 
-# Check VPC status
-kubectl get vpc broken-vpc -o yaml | grep -A 10 "status:"
+# Check reconciliation via events
+kubectl describe vpc broken-vpc
 
-# Look for errors
-kubectl describe vpc broken-vpc | grep -i error
+# Look specifically for error events
+kubectl describe vpc broken-vpc | tail -20
 ```
 
 **What to look for**:
-- `state: Active` (if not Active, reconciliation failed)
-- VNI assigned (if missing, VPC not fully deployed)
-- Events section (errors would appear here)
+- **VPC exists** in `kubectl get` output
+- **Events section** shows no errors (healthy) or specific error messages
+- **Recent events** at bottom of describe output show reconciliation activity
 
-**Teaching Point**: kubectl shows actual cluster state (reality vs intent)
+**Common Error Events**:
+- "Subnet overlaps with existing VPC" = configuration conflict
+- "Invalid VLAN in namespace" = VLAN allocation problem
+- "DHCP range invalid" = IP range configuration error
+
+> 💡 **Event-Based Troubleshooting**
+> No error events = VPC reconciled successfully. If you see Warning or Error events, the message tells you exactly what's wrong. This is simpler than parsing status fields!
+
+**Teaching Point**: kubectl events show reconciliation result (errors if any)
 
 ---
 
@@ -740,9 +785,9 @@ Is the config in Gitea correct?
               Does kubectl show the VPC exists?
                   ├─ NO → Check ArgoCD sync status
                   └─ YES → ↓
-                            Is VPC status "Active"?
-                                ├─ NO → Check kubectl describe for errors
-                                └─ YES → ↓
+                            Are there error events in kubectl describe?
+                                ├─ YES → Fix configuration issue (event message explains what)
+                                └─ NO → ↓
                                           Are switches healthy in Grafana?
                                               ├─ NO → Check Fabric/Platform dashboards
                                               └─ YES → Check Logs dashboard for DHCP errors
@@ -770,15 +815,19 @@ D) ArgoCD
 
 ---
 
-### Question 2: kubectl Interpretation (Multiple Choice)
-**Stem**: You run `kubectl get vpc test-vpc -o yaml` and see `state: Pending` in the status section. What does this mean?
+### Question 2: kubectl Event Interpretation (Multiple Choice)
+**Stem**: You run `kubectl describe vpc test-vpc` and see this event:
+```
+Warning  ReconcileFailed  2m  fabricator  Subnet 10.10.10.0/24 overlaps with existing VPC 'prod-vpc'
+```
+What does this mean?
 
-A) The VPC is fully operational
-B) The VPC is being deployed by Fabricator ✓
-C) The VPC configuration has errors
-D) The VPC is scheduled for deletion
+A) The VPC is being deployed (this is normal)
+B) The VPC configuration has an error that must be fixed ✓
+C) The VPC is waiting for switches to become available
+D) The Fabricator controller needs to be restarted
 
-**Explanation**: `state: Pending` indicates the Fabricator controller is in the process of reconciling the VPC (deploying it to switches). Active = fully deployed. Failed = errors occurred.
+**Explanation**: Warning/Error events indicate configuration problems that prevent reconciliation. This specific event shows a subnet conflict - the VPC cannot be created until the configuration is fixed (choose non-overlapping subnet). No error events = successful reconciliation.
 
 **Learning Objective**: LO #2 - Interpret kubectl CRD output
 
@@ -851,7 +900,7 @@ Students successfully complete Module 1.3 when they can:
 - ✅ Describe the troubleshooting flow across interfaces
 
 ### Skill Demonstration
-- ✅ Use kubectl to inspect VPC status and identify state field
+- ✅ Use kubectl to inspect VPC and check for error events
 - ✅ Navigate Gitea commit history to find configuration changes
 - ✅ Open and interpret all 6 Grafana dashboards
 - ✅ Follow troubleshooting methodology for "VPC not working" scenario
@@ -993,6 +1042,14 @@ Students will have mastered:
 **Change Log**:
 - 2025-10-16 v1.0: Initial design based on Module 1.2 v2.1 validation success
 - 2025-10-16 v1.0: APPROVED by Course Lead - Ready for validation
+- 2025-10-16 v1.1: **ARCHITECTURAL UPDATE** - Removed VPC status dependencies, replaced with event-based reconciliation model
+  - Updated LO #2: "events, reconciliation status" instead of "status fields"
+  - Updated Task 1.1: Event-based VPC validation approach
+  - Added new section: "Understanding Hedgehog's Reconciliation Model"
+  - Updated troubleshooting Step 2: Event-based kubectl checks
+  - Updated Assessment Q2: Event interpretation instead of status fields
+  - Updated all 6 Grafana dashboard UIDs (removed <uid> placeholders)
+  - Rationale: VPCs use event-based reconciliation (documented in CRD_REFERENCE.md)
 
 ---
 
