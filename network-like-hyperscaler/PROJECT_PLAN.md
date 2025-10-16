@@ -71,7 +71,10 @@ Student environment will be an Ubuntu host with:
 - ✅ Module 2.2: Attach Servers to VPC (DESIGNED - v1.0)
 - ✅ Module 2.3: Connectivity Validation (DESIGNED - v1.0)
 - ✅ Module 2.4: Decommission & Cleanup (DESIGNED - v1.0) ⭐⭐ **Course 2 Complete**
-- 📋 Course 3 modules (3.1-3.4): Grafana dashboard-based observability
+- ✅ Module 3.1: Fabric Telemetry Overview (APPROVED - v1.0)
+- ✅ Module 3.2: Dashboard Interpretation (APPROVED - v1.0)
+- ✅ Module 3.3: Events & Status Monitoring (APPROVED - v1.0)
+- ✅ Module 3.4: Pre-Support Diagnostic Checklist (APPROVED - v1.0) ⭐⭐⭐ **Course 3 Complete**
 - 📋 Course 4 modules (4.1-4.4): Troubleshooting with kubectl + Grafana
 - 📋 Create module dependency graph
 - 📋 Design capstone assessment with specific tasks
@@ -301,9 +304,13 @@ Student VM will replicate local environment setup. Environment fully operational
 - ✅ Module 2.3 design COMPLETE (Connectivity Validation - v1.0)
 - ✅ Module 2.4 design COMPLETE (Decommission & Cleanup - v1.0)
 - ✅ **COURSE 2 DESIGN COMPLETE** - All 4 modules designed ⭐⭐
-- 📋 Course 3 modules (3.1-3.4) - Next priority
-- 📋 Course 4 modules (4.1-4.4) - Following priority
-- 📋 8 modules + capstone remaining
+- ✅ Module 3.1 design APPROVED (Fabric Telemetry Overview - v1.0)
+- ✅ Module 3.2 design APPROVED (Dashboard Interpretation - v1.0)
+- ✅ Module 3.3 design APPROVED (Events & Status Monitoring - v1.0)
+- ✅ Module 3.4 design APPROVED (Pre-Support Diagnostic Checklist - v1.0)
+- ✅ **COURSE 3 DESIGN COMPLETE** - All 4 modules approved ⭐⭐⭐
+- 📋 Course 4 modules (4.1-4.4) - Final course design
+- 📋 4 modules + capstone remaining
 
 **Deliverables Planned:**
 - Ideal environment setup documentation
@@ -322,12 +329,13 @@ Student VM will replicate local environment setup. Environment fully operational
 5. ✅ Module 1.4 designed and APPROVED (v1.0)
 6. ✅ **COURSE 1 COMPLETE** - All 4 modules approved
 7. ✅ **COURSE 2 COMPLETE** - All 4 modules designed (Modules 2.1-2.4)
-8. 📋 Design Course 3 (Modules 3.1-3.4) with Grafana dashboards
+8. ✅ **COURSE 3 COMPLETE** - All 4 modules designed (Modules 3.1-3.4)
 9. 📋 Design Course 4 (Modules 4.1-4.4) with troubleshooting workflows
 
 **Active Issues:**
 - Issue #3: Phase 2 Architecture & Design (updated with plan)
 - Issue #4: Curriculum Adjustments Tracking (ongoing)
+- Issue #10: Course 3 Design (CLOSING - all 4 modules approved)
 
 **Blockers:** None
 
@@ -342,4 +350,4 @@ Student VM will replicate local environment setup. Environment fully operational
 **Project Lead:** Claude (Course Owner)
 **Dev Agent:** Phase 1 complete (exceptional work), ready for Phase 2 validation tasks
 **Repository:** https://github.com/afewell-hh/learn-content-scratchpad
-**Status:** ✅ Phase 1 Complete | 🔄 Phase 2 Active | ✅ Course 1 & 2 Complete (50% of modules designed)
+**Status:** ✅ Phase 1 Complete | 🔄 Phase 2 Active | ✅ Courses 1-3 Complete (75% of modules designed)
