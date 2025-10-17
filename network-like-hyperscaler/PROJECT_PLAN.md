@@ -350,7 +350,7 @@ Student VM will replicate local environment setup. Environment fully operational
 
 **Approach:** Iterative, module-by-module content development following critical path
 
-**Progress:** 12 of 16 modules complete (75%)
+**Progress:** 13 of 16 modules complete (81.25%)
 
 ✅ **Course 1: PUBLISHED (Oct 16, 2025)**
 
@@ -385,6 +385,10 @@ Student VM will replicate local environment setup. Environment fully operational
 - ✅ Module 2.2: VPC Attachments - Connecting Servers (1,124 lines, order 202)
 - ✅ Module 2.3: Connectivity Validation (order 203)
 - ✅ Module 2.4: Decommission & Cleanup (order 204)
+
+**Course 2 Metrics:**
+- **Total Content:** ~4,000 lines (4 comprehensive modules)
+- **Status:** ✅ COMPLETE - Ready for publication
 
 🎉 **Course 3 Status: ✅ COMPLETE (Oct 17, 2025) - 100% (4/4 modules)**
 
@@ -427,6 +431,24 @@ Student VM will replicate local environment setup. Environment fully operational
 - **Significance:** First course developed entirely in correct format from start to finish
 - **Status:** ✅ COMPLETE - Ready for publication
 
+🚀 **Course 4 Status: IN PROGRESS (Oct 17, 2025) - 25% (1/4 modules)**
+
+**Completed Modules:**
+- ✅ Module 4.1: Diagnosing Fabric Issues (2,000 lines, order 401) - COMPLETE
+  - File: `course-4-troubleshooting/module-4.1-diagnosing-fabric-issues.md`
+  - YAML front matter valid, SEO description: 142 characters
+  - 5 learning objectives, 7 core concepts
+  - Hands-on lab: 4-task systematic troubleshooting scenario (VLAN mismatch)
+  - 3 complete decision trees for common failure modes
+  - 4-layer diagnostic workflow (Events → Agent CRD → Grafana → Logs)
+  - Embodies 6 of 10 learning philosophy principles
+  - PR #33 merged, Issue #32 closed
+
+**Remaining Modules:**
+- Module 4.2: Rollback & Recovery (order 402) - PENDING
+- Module 4.3: Coordinating with Support (order 403) - PENDING
+- Module 4.4: Post-Incident Review (order 404) - PENDING (FINAL MODULE)
+
 **Completed Issues:**
 - ✅ Issue #13-16 (Course 1 modules)
 - ✅ Issue #17-18 (Modules 2.1-2.2)
@@ -434,6 +456,7 @@ Student VM will replicate local environment setup. Environment fully operational
 - ✅ Issue #25 (Module 3.2)
 - ✅ Issue #28 (Module 3.3)
 - ✅ Issue #30 (Module 3.4) - 🎉 **Course 3 Complete**
+- ✅ Issue #32 (Module 4.1) - 🚀 **Course 4 Started**
 
 **Active Issues:**
 - Issue #4: Curriculum Adjustments Tracking (ongoing)
@@ -442,8 +465,12 @@ Student VM will replicate local environment setup. Environment fully operational
 1. ✅ Module 3.4 completed (2,619 lines, 6 principles, 656-line diagnostic script)
 2. ✅ PR #31 merged
 3. ✅ Issue #30 closed
-4. 🎉 **COURSE 3 COMPLETE** - All 4 modules (5,745 lines total)
-5. 🏁 Next: Course 4 development (Modules 4.1-4.4) - **FINAL COURSE**
+4. ✅ **COURSE 3 COMPLETE** - All 4 modules (5,745 lines total)
+5. ✅ Module 4.1 completed (2,000 lines, 6 principles, 3 decision trees)
+6. ✅ PR #33 merged with @codex review approval
+7. ✅ Issue #32 closed
+8. 🚀 **COURSE 4 IN PROGRESS** - 1/4 modules complete (25%)
+9. 🏁 Next: Module 4.2 development (Rollback & Recovery)
 
 **Blockers:** None
 
@@ -455,8 +482,8 @@ Student VM will replicate local environment setup. Environment fully operational
 
 ---
 
-**Last Updated:** 2025-10-17 (Updated: Module 3.4 complete - 🎉 COURSE 3 COMPLETE)
+**Last Updated:** 2025-10-17 (Updated: Module 4.1 complete - 🚀 COURSE 4 IN PROGRESS)
 **Project Lead:** Claude (Course Owner)
-**Dev Agent:** Phase 1 complete (exceptional), Phase 3 in progress (12/16 modules complete)
+**Dev Agent:** Phase 1 complete (exceptional), Phase 3 in progress (13/16 modules complete)
 **Repository:** https://github.com/afewell-hh/learn-content-scratchpad
-**Status:** ✅ Phase 1 Complete | ✅ Phase 2 Complete | 🚀 Phase 3 In Progress (75% complete) | ✅ Course 1 PUBLISHED | ✅ Course 2 COMPLETE | 🎉 Course 3 COMPLETE (5,745 lines) | 🏁 Course 4: Next (FINAL COURSE)
+**Status:** ✅ Phase 1 Complete | ✅ Phase 2 Complete | 🚀 Phase 3 In Progress (81.25% complete) | ✅ Course 1 PUBLISHED | ✅ Course 2 COMPLETE | ✅ Course 3 COMPLETE (5,745 lines) | 🚀 Course 4: IN PROGRESS (1/4 modules - 25%)
